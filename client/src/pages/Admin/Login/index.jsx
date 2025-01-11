@@ -28,10 +28,8 @@ const Login = () => {
       navigate('/admin/department')
       console.log(response.data);
     } catch (e) {
-        if(e.status==400){
-            toast.error('Email or Password incorrect')
-        }else
-        toast.error(e.message)
+       
+        toast.error(e.response.data.message||e.message)
 
     }
   };
