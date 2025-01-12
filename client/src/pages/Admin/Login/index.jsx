@@ -2,11 +2,12 @@ import './Login.css';
 import { useState } from 'react';
 import axios from '../../../utils/axios';
 import { Button, Input } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 const Login = () => {
   const navigate = useNavigate();
+  const location =useLocation()
   const [login, setLogin] = useState({
     email: '',
     pasword: '',
@@ -25,6 +26,7 @@ const Login = () => {
       localStorage.setItem('ID',response.data.id)
       localStorage.setItem('TOKEN',response.data.token)
       localStorage.setItem('ROLE',response.data.role)
+      
       navigate('/admin/department')
       console.log(response.data);
     } catch (e) {
@@ -33,6 +35,7 @@ const Login = () => {
 
     }
   };
+  
 
   return (
     <>

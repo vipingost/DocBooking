@@ -1,0 +1,14 @@
+.dep-input-container {
+    margin-bottom: 16px;
+  }
+  
+  .add-btn-container {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .doctor-profile img {
+    max-width: 150px;
+    border-radius: 50%;
+  }
+  

@@ -61,6 +61,7 @@ body{
     color: #fbfbfb;;
     align-items: center;
     transition: background-color 0.5s;
+    cursor: pointer;
 }
 
 .menu-head{

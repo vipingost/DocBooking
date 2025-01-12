@@ -5,7 +5,7 @@ const {
   getHospitalById,
   updateHospital,
   deleteHospital,
-} = require('../controllers/hospital-controller');
+} = require('../controllers/hospital-controllers');
 
 const router = express.Router();
 

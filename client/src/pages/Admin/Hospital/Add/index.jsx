@@ -1,0 +1,126 @@
+import AdminLayout from '../../../../Components/AdminLayout';
+import './add.css';
+import { Input, Button, Select } from 'antd';
+import { useState, useEffect } from 'react';
+import axios from '../../../../utils/axios';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+const { TextArea } = Input;
+
+const Add = () => {
+  const [hospital, setHospital] = useState({
+    name: '',
+    phonenumber: '',
+    image: '',
+    location: '',
+    department: [],
+    about: '',
+  });
+  const [department, setDepartment] = useState([]);
+  const navigate = useNavigate();
+  const getDepartment = async () => {
+    const response = await axios.get('/department');
+    const convertedData = response.data.map(item => {
+      return {
+        value: item._id,
+        label: item.name,
+      };
+    });
+    console.log(response.data);
+    setDepartment(convertedData);
+    console.log(department);
+  };
+  useEffect(() => {
+    getDepartment();
+  }, []);
+
+  const onChange = (e, key) => {
+    if(key=='department'){
+      setHospital({...hospital,department:e})
+    }else{
+      setHospital({ ...hospital, [key]: e.target.value });
+    }
+  };
+  const onUploadImage = async e => {
+    const formData = new FormData();
+    console.log(e.target.files[0]);
+    formData.append('avatar', e.target.files[0]);
+    const response = await axios.post('/upload', formData);
+    console.log(response);
+    setHospital({ ...hospital, image: response.data.url });
+  };
+  console.log(hospital);
+  const addHospitalOnClick = async () => {
+    try {
+      const response = await axios.post('./hospital', hospital);
+      navigate('/admin/hospital');
+    } catch (e) {
+      toast.error(e.response.data.message || e.message);
+    }
+  };
+
+  return (
+    <>
+      <AdminLayout heading="Add Hospital">
+        <ToastContainer />
+        <div className="add-hospital-form">
+          <div className="dep-input-container">
+            <label>Name</label>
+            <Input
+              onChange={e => {
+                onChange(e, 'name');
+              }}
+            />
+          </div>
+
+          <div className="dep-input-container">
+            <label>Image</label>
+            <Input onChange={onUploadImage} type="file" />
+          </div>
+          <div className="dep-input-container">
+            <label>PhoneNumber</label>
+            <Input
+              onChange={e => {
+                onChange(e, 'phonenumber');
+              }}
+              rows={5}
+            />
+          </div>
+          <div className="dep-input-container">
+            <label>Location</label>
+            <Input
+              onChange={e => {
+                onChange(e, 'location');
+              }}
+              rows={5}
+            />
+          </div>
+          <div className="dep-input-container">
+            <label>Departments</label>
+            <Select options={department}
+              mode="multiple"
+              onChange={e => {
+                onChange(e, 'department');
+              }}
+              rows={5}
+            />
+          </div>
+          <div className="dep-input-container">
+            <label>About</label>
+            <TextArea
+              onChange={e => {
+                onChange(e, 'about');
+              }}
+              rows={5}
+            />
+          </div>
+        </div>
+        <div className="add-btn-container">
+          <Button onClick={addHospitalOnClick}>Add</Button>
+        </div>
+      </AdminLayout>
+    </>
+  );
+};
+
+export default Add;

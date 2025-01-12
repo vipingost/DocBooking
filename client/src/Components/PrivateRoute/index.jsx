@@ -5,7 +5,7 @@ const PrivateRoute=()=>{
     if(checkTocken()){
         return <Outlet/>
     }else{
-        <Navigate to="/admin/login"/>
+       return <Navigate to="/admin/login"/>
     }
 
 

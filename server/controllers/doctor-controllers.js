@@ -7,6 +7,8 @@ const nodemailer=require('nodemailer')
 module.exports.signup = async (req, res) => {
   try {
     const { email, firstname } = req.body;
+    console.log(req.body);
+    
 
     const doctor = await Doctor.findOne({ email: email });
     if (doctor) {
@@ -20,8 +22,8 @@ module.exports.signup = async (req, res) => {
     });
     const hashedPassword = await bcrypt.hash(generatedPassword, 2);
     const dbResponse = await Doctor.create({
+      ...req.body,
       email,
-      firstname,
       password: hashedPassword,
     });
     const transporter = nodemailer.createTransport({

@@ -1,8 +1,14 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate} from 'react-router-dom';
 import './adminlayout.css';
 
 const AdminLayout = ({children,heading}) => {
   const navigate = useNavigate();
+  const onLogout=()=>{
+    localStorage.removeItem('TOKEN')
+    localStorage.removeItem('ROLE')
+    localStorage.removeItem('ID')
+    navigate('/admin/login')
+  }
 
   return<>
   <div className="admin-layout">
@@ -26,7 +32,7 @@ const AdminLayout = ({children,heading}) => {
                 <i class="fa-solid fa-hospital"></i>
                     Hospital
                 </NavLink>
-                <NavLink className="menu-item" to="/admin/doctor">
+                <NavLink className="menu-item" to="/admin/add-doctor">
                 <i class="fa-solid fa-user-doctor"></i>
                     Doctor
                 </NavLink>
@@ -41,7 +47,7 @@ const AdminLayout = ({children,heading}) => {
                 <i class="fa-solid fa-gear"></i>
                     Settings
                 </NavLink>
-                <p className="menu-item" >
+                <p className="menu-item" onClick={onLogout}>
                 <i class="fa-solid fa-right-from-bracket"></i>
                     LogOut
                 </p>

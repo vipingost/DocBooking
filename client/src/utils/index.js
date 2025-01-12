@@ -1,3 +1,10 @@
 export const checkTocken = () => {
-  return localStorage.getItem('TOKEN') ? true : false;
+  const token = localStorage.getItem('TOKEN');
+  
+  if (token) {
+    return true;
+  }else{
+
+    return false;
+  }
 };

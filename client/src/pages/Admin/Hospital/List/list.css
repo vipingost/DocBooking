@@ -1,0 +1,17 @@
+.hospital-container{
+    margin-top: 50px;
+    
+}
+
+.hospital-btn-container{
+    display: flex;
+
+}
+
+.table-image{
+
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
+}

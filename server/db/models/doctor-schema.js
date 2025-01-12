@@ -10,7 +10,7 @@ const doctorSchema = Schema(
     },
     lastname: {
       type: String,
-      // required: true,
+      required: true,
       trim: true,
     },
     email: {
@@ -34,12 +34,12 @@ const doctorSchema = Schema(
     },
     about: {
       type: String,
-      // required: true,
+      required: true,
       trim: true,
     },
     specialization: {
       type: String,
-      // required: true,
+      required: true,
       trim: true,
     },
     department: {
