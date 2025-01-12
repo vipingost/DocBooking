@@ -8,6 +8,7 @@ import PrivateRoute from './Components/PrivateRoute';
 import AddDepartment from './pages/Admin/Department/Add'
 import AddHospital from './pages/Admin/Hospital/Add/index'
 import AddDoctor from './pages/Admin/Doctor/Add/index'
+import DoctorList from './pages/Admin/Doctor/List';
 // import DoctorLogin from './pages/Doctor Login';
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/admin/hospital/" element={<Listhospital />} />
           <Route path="/admin/add-hospital/" element={<AddHospital />} />
           <Route path="/admin/add-doctor/" element={<AddDoctor />} />
+          <Route path="/admin/doctor/" element={<DoctorList />} />
         </Route>
           {/* <Route path="/doctor/" element={<DoctorLogin />} /> */}
       </Routes>

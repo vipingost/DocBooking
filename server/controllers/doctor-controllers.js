@@ -84,3 +84,12 @@ module.exports.login = async (req, res) => {
     return res.status(500).json({ message: e.message, error: true });
   }
 };
+
+module.exports.getDoctor = async (req, res) => {
+  try {
+    const dbResponse = await Doctor.find().populate('department').populate('hospital');
+    res.status(200).json(dbResponse);
+  } catch (e) {
+    res.status(500).json({ message: e.message, error: true });
+  }
+};

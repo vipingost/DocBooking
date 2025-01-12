@@ -32,7 +32,7 @@ const AdminLayout = ({children,heading}) => {
                 <i class="fa-solid fa-hospital"></i>
                     Hospital
                 </NavLink>
-                <NavLink className="menu-item" to="/admin/add-doctor">
+                <NavLink className="menu-item" to="/admin/doctor">
                 <i class="fa-solid fa-user-doctor"></i>
                     Doctor
                 </NavLink>

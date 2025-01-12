@@ -65,7 +65,7 @@ const AddDoctor = () => {
   const addDoctorOnClick = async () => {
     try {
       await axios.post('/doctor/signup', doctor);
-      navigate('/admin/department');
+      navigate('/doctor');
     } catch (e) {
       toast.error(e.response.data.message || e.message);
     }
@@ -101,6 +101,7 @@ const AddDoctor = () => {
           <div className="dep-input-container">
             <label>Department</label>
             <Select
+            mode='multiple'
               options={departments}
               onChange={(value) => onChange(value, 'department')}
             />
