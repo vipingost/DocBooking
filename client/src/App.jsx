@@ -15,6 +15,9 @@ import UserLogin from './pages/User/userLogin';
 import EditDepartment from './pages/Admin/Department/Edit';
 import EditHospital from './pages/Admin/Hospital/EditHospital';
 import SetSlot from './pages/Admin/Doctor/Slot/setSlot';
+import UserHome from './pages/User/homepage/userhome';
+import UserDash from './pages/User/userDash/userdash';
+import ViewDoc from './pages/User/userDash/viewDoc';
 
 const App = () => {
 
@@ -38,6 +41,9 @@ const App = () => {
           <Route path="/user/login" element={<UserLogin />} />
           <Route path="/doctor/login" element={<DoctorLogin />} />
           <Route path="/doctor/set-slot" element={<SetSlot />} />
+          <Route path="/" element={<UserHome />} />
+          <Route path="/userDash" element={<UserDash />} />
+          <Route path="/viewdoc/:id" element={<ViewDoc />} />
 
       </Routes>
     </>

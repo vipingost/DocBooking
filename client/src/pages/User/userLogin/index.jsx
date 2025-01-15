@@ -26,7 +26,7 @@ const UserLogin = () => {
       localStorage.setItem('ROLE',response.data.role)
       localStorage.setItem('UNAME',response.data.name)
       toast.success('Login successful');
-      navigate('/dashboard');  
+      navigate('/');  
     } catch (e) {
       toast.error(e.response.data.message || e.message);
     }
