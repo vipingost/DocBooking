@@ -1,32 +1,20 @@
-const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose');
 
-const slotSchema = Schema(
-  {
-    doctor: {
-      type: Schema.Types.ObjectId,
-      ref: 'doctors',
+// Define the schema
+const SlotSchema = new mongoose.Schema({
+  doctorId: { type: mongoose.Schema.Types.ObjectId, ref: 'Doctor', required: true },
+  slot: [
+    {
+      date: { type: String, required: true }, // Date string (e.g., "2025-01-21")
+      slotDetails: [
+        {
+          starttime: { type: String, required: true }, // Slot start time (e.g., "06:00")
+          endtime: { type: String, required: true }, // Slot end time (e.g., "07:00")
+        },
+      ],
     },
-    date: {
-      type: Date,
-      required: true,
-    },
-    startTime: {
-      type: String,
-      required: true,
-    },
-    endTime: {
-      type: String,
-      required: true,
-    },
-    booked: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  ],
+  booked: { type: Boolean, default: false }, // Whether the doctor is booked
+});
 
-  { timestamps: true }
-);
-
-const Slot = model('slots', slotSchema);
-
-module.exports = Slot;
+module.exports = mongoose.model('Slot', SlotSchema);

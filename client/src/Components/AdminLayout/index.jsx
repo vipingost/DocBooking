@@ -1,12 +1,14 @@
 import { NavLink, useNavigate} from 'react-router-dom';
 import './adminlayout.css';
+import { Button,Popconfirm,message } from 'antd';
 
 const AdminLayout = ({children,heading}) => {
   const navigate = useNavigate();
   const onLogout=()=>{
-    localStorage.removeItem('TOKEN')
+    localStorage.removeItem('ADMIN_TOKEN')
     localStorage.removeItem('ROLE')
     localStorage.removeItem('ID')
+    message.success('Logged Out Succesfully')
     navigate('/admin/login')
   }
 
@@ -47,9 +49,18 @@ const AdminLayout = ({children,heading}) => {
                 <i class="fa-solid fa-gear"></i>
                     Settings
                 </NavLink>
-                <p className="menu-item" onClick={onLogout}>
+                <p className="menu-item" >
                 <i class="fa-solid fa-right-from-bracket"></i>
-                    LogOut
+                <Popconfirm
+            title="Are you sure ?"
+            onConfirm={onLogout}
+            okText="Yes"
+            cancelText="No"
+          >
+            LogOut
+            
+          </Popconfirm>
+                    
                 </p>
             </div>
         </div>

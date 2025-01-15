@@ -1,21 +1,34 @@
 import AdminLayout from '../../../../Components/AdminLayout';
 import axios from '../../../../utils/axios';
 import { useState, useEffect } from 'react';
-import { Table, Button } from 'antd';
+import { Table, Button,Popconfirm,message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './list.css'
 
 const List = () => {
   const [hospital, setHospital] = useState([]);
   const navigate=useNavigate()
-  const getHoaspital = async () => {
+  const getHospital = async () => {
     const response = await axios.get('/hospital');
     console.log(response.data);
     setHospital(response.data);
   };
+  const gotoEditPage = (id) => {
+    navigate(`/admin/edit-hospital/${id}`);
+  };
+
   useEffect(() => {
-    getHoaspital();
+    getHospital();
   }, []);
+  const deleteHospital = async (id) => {
+    try {
+      await axios.delete(`/hospital/${id}`);
+      message.success('Hospital deleted successfully');
+      getHospital(); 
+    } catch (error) {
+      message.error('Failed to delete Hspital');
+    }
+  };
   const columns = [
     {
       title: 'Name',
@@ -60,6 +73,27 @@ const List = () => {
       dataIndex: 'about',
       key: 'about',
     },
+    {
+      title:'Action',
+      key:'action',
+      render: (record) => (
+        <div className="action-buttons">
+          <Button type="link" onClick={() => gotoEditPage(record._id)}>
+            Edit
+          </Button>
+          <Popconfirm
+            title="Are you sure to delete this department?"
+            onConfirm={() => deleteHospital(record._id)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="link" danger>
+              Delete
+            </Button>
+          </Popconfirm>
+        </div>
+      ),
+    }
   ];
    const gotoAddPAge=()=>{
     navigate('/admin/add-hospital')

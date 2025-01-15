@@ -1,0 +1,16 @@
+.add-hospital-form{
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+
+}
+
+.dep-input-container{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.add-btn-container{
+    margin: 30px 30px;
+}

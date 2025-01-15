@@ -1,24 +1,45 @@
 import AdminLayout from '../../../../Components/AdminLayout';
 import axios from '../../../../utils/axios';
 import { useState, useEffect } from 'react';
-import { Table, Button } from 'antd';
+import { Table, Button,Popconfirm, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import './list.css'
 
 const List = () => {
-  const [department, setDepartment] = useState([]);
+  const [department, setDepartment] = useState(false);
   const navigate=useNavigate()
   const getDepartment = async () => {
-    const response = await axios.get('/department');
+    const response = await axios.get('/department',{
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('ADMIN_TOKEN')}`
+      }
+    });
     console.log(response.data);
     setDepartment(response.data);
   };
   useEffect(() => {
     getDepartment();
   }, []);
+
+  const deleteDepartment = async (id) => {
+    try {
+      await axios.delete(`/department/${id}`);
+      message.success('Department deleted successfully');
+      getDepartment(); 
+    } catch (error) {
+      message.error('Failed to delete department');
+    }
+  };
+
+ 
+  const gotoEditPage = (id) => {
+    navigate(`/admin/edit-department/${id}`);
+  };
+
+
   const columns = [
     {
-      title: 'Id',
+      title: 'ID',
       dataIndex: '_id',
       key: '_id',
       render:id=>
@@ -34,15 +55,38 @@ const List = () => {
       
     },
     {
-      title: 'name',
+      title: 'Name',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'about',
+      title: 'About',
       dataIndex: 'about',
       key: 'about',
     },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (record) => (
+        <div className="action-buttons">
+          <Button type="link" onClick={() => gotoEditPage(record._id)}>
+            Edit
+          </Button>
+          <Popconfirm
+            title="Are you sure to delete this department?"
+            onConfirm={() => deleteDepartment(record._id)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="link" danger>
+              Delete
+            </Button>
+          </Popconfirm>
+        </div>
+      ),
+    },
+
+    
   ];
    const gotoAddPAge=()=>{
     navigate('/admin/add-department')
@@ -55,8 +99,9 @@ const List = () => {
 
           <Button onClick={gotoAddPAge} >Add Department</Button>
       </div>
-        <div className="department-container">
-          <Table dataSource={department} columns={columns} />;
+        <div className="department-container">{
+          department&&
+          <Table dataSource={department} columns={columns} rowKey="_id" />}
         </div>
       </AdminLayout>
     </>

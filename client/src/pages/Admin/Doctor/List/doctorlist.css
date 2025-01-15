@@ -62,14 +62,14 @@
     overflow: hidden; 
     text-overflow: ellipsis; 
     display: -webkit-box;
-    -webkit-line-clamp: 3; 
+     
     -webkit-box-orient: vertical;
   }
   
   
   .doctor-details .about-text:hover {
     max-height: none;
-    -webkit-line-clamp: unset;
+    
     text-overflow: unset;
   }
   

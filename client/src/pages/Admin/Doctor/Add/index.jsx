@@ -24,6 +24,8 @@ const AddDoctor = () => {
 
   const getDepartments = async () => {
     const response = await axios.get('/department');
+    console.log(response.data);
+    
     setDepartments(
       response.data.map((item) => ({
         value: item._id,

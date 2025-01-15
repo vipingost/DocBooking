@@ -1,14 +1,14 @@
 const Doctor = require('../db/models/doctor-schema');
+const Slot = require('../db/models/slot-schema');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const generator = require('generate-password');
-const nodemailer=require('nodemailer')
+const nodemailer = require('nodemailer');
 
 module.exports.signup = async (req, res) => {
   try {
     const { email, firstname } = req.body;
     console.log(req.body);
-    
 
     const doctor = await Doctor.findOne({ email: email });
     if (doctor) {
@@ -20,34 +20,39 @@ module.exports.signup = async (req, res) => {
       length: 10,
       numbers: true,
     });
+    console.log(generatedPassword);
+    
+    
     const hashedPassword = await bcrypt.hash(generatedPassword, 2);
     const dbResponse = await Doctor.create({
       ...req.body,
       email,
       password: hashedPassword,
+      
+      
     });
+    console.log(email);
+    
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'vipinviswanath425@gmail.com',
-        pass: 'ykkv phbv ifpv iktz'
-      }
+        user: '8280b1001@smtp-brevo.com',
+        pass: 'ykkv phbv ifpv iktz',
+      },
     });
     const mailOptions = {
       from: 'vipinviswanath425@gmail.com',
       to: email,
       subject: 'DOC APP PASSWORD',
       text: `Hi docter,
-      please login to the doctor booking app using the password:${generatedPassword}`
+      please login to the doctor booking app using the password:${generatedPassword}`,
     };
-    
-    transporter.sendMail(mailOptions, function(error, info){
+
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
-        return res
-        .status(201)
-        .json({ message: 'Doctor addded', error: false });
+        return res.status(201).json({ message: 'Doctor addded', error: false });
       }
     });
   } catch (e) {
@@ -77,9 +82,14 @@ module.exports.login = async (req, res) => {
       { expiresIn: '5d' }
     );
 
-    return res
-      .status(200)
-      .json({ message: 'You are logged in', error: false, token });
+    return res.status(200).json({
+      message: 'You are logged in',
+      error: false,
+      token,
+      id: doctor._id,
+      name: doctor.firstname + ' ' + doctor.lastname,
+      role: 'DOCTOR',
+    });
   } catch (e) {
     return res.status(500).json({ message: e.message, error: true });
   }
@@ -87,9 +97,74 @@ module.exports.login = async (req, res) => {
 
 module.exports.getDoctor = async (req, res) => {
   try {
-    const dbResponse = await Doctor.find().populate('department').populate('hospital');
+    const dbResponse = await Doctor.find()
+      .populate('department')
+      .populate('hospital');
     res.status(200).json(dbResponse);
   } catch (e) {
     res.status(500).json({ message: e.message, error: true });
+  }
+};
+
+module.exports.AddSlot = async (req, res) => {
+  const { doctorId, slot } = req.body; // Assuming `slot` is an array of { date, slotDetails }
+ // console.log(slot);
+
+  try {
+    // Try to find the doctor slot record
+    let doctorSlot = await Slot.findOne({ doctorId });
+    var newSlot = {
+      doctorId,
+      slot: slot, // Assign the slot data directly
+      booked: true, // Default to false
+    };
+    if (!doctorSlot) {
+      // If no slot exist for this doctor, create a new slot entry
+      await Slot.create({
+        ...newSlot,
+      });
+
+      return res.status(200).json({ message: 'Slot added successfully' });
+    } else {
+      console.log("Check", doctorSlot.slot.filter(fil => {
+        return fil.date === slot.date;
+      }).length != 0);
+      
+      if (
+        doctorSlot.slot.filter(fil => {
+          return fil.date === slot.date;
+        }).length != 0
+      ) {
+        doctorSlot.slot.forEach(newSlot => {
+          const existingSlot = doctorSlot.slot.find(
+            slot => slot.date === newSlot.date
+          );
+          if (existingSlot) {
+            // If the date already exists, append the new slot details to the existing date
+            existingSlot.slotDetails.push(...newSlot.slotDetails);
+          } else {
+            // If the date doesn't exist, add the new date and slot details
+            doctorSlot.slot.push({
+              slot,
+            });
+          }
+        });
+
+        // Save the updated doctor slot
+        await doctorSlot.save();
+        return res.status(200).json({ message: 'Slots added successfully' });
+      } else {
+        console.log("rfgrfghsrghhghik");
+        
+        doctorSlot.slot.push(slot);
+
+        // Save the updated doctor slot
+        await doctorSlot.save();
+        return res.status(200).json({ message: 'Slots added successfully' });
+      }
+    }
+  } catch (error) {
+    console.error('Error adding slot:', error);
+    return res.status(500).json({ message: 'Failed to add slot' });
   }
 };

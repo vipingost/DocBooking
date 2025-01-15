@@ -1,7 +1,26 @@
-import { Outlet,Navigate } from "react-router-dom";
+import { Outlet,Navigate, useNavigate } from "react-router-dom";
 import { checkTocken } from "../../utils/index";
+import { useEffect } from "react";
+import axios from "../../utils/axios";
+import { toast } from "react-toastify";
 const PrivateRoute=()=>{
-
+    // useEffect(()=>{
+    //     checkIsaAuth()
+    //   },[])
+    // const Navigate = useNavigate()
+    
+    // const checkIsaAuth= async ()=>{
+    //   const response =await axios.get('/admin/auth')
+    //   console.log(response);
+      
+    //   if(response.data.success === false){
+    //     // setIsLogin(true)
+    //     Navigate('/admin/login')
+    
+    //     toast.error(response.data.message ||response.message)
+    //   }else Navigate('/admin/hospital')
+    
+    // }
     if(checkTocken()){
         return <Outlet/>
     }else{

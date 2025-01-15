@@ -1,5 +1,5 @@
 import './Login.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from '../../../utils/axios';
 import { Button, Input } from 'antd';
 import { useNavigate,useLocation } from 'react-router-dom';
@@ -13,6 +13,7 @@ const Login = () => {
     pasword: '',
   });
 
+
   const onChange = (e, key) => {
     console.log(e.target.value);
     console.log(login);
@@ -23,13 +24,15 @@ const Login = () => {
   const onLogin = async () => {
     try {
       const response = await axios.post('/admin/login', login);
+      localStorage.clear();
       localStorage.setItem('ID',response.data.id)
-      localStorage.setItem('TOKEN',response.data.token)
+      localStorage.setItem('ADMIN_TOKEN',response.data.token)
       localStorage.setItem('ROLE',response.data.role)
       
       navigate('/admin/department')
       console.log(response.data);
     } catch (e) {
+       console.log(e);
        
         toast.error(e.response.data.message||e.message)
 

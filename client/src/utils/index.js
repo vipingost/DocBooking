@@ -1,5 +1,5 @@
 export const checkTocken = () => {
-  const token = localStorage.getItem('TOKEN');
+  const token = localStorage.getItem('ADMIN_TOKEN');
   
   if (token) {
     return true;

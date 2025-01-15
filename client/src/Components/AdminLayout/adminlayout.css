@@ -90,4 +90,6 @@ body{
       box-shadow: 2px 2px 20px #262626;
   }
   
-  
+  .btn{
+    background: #000;
+  }
