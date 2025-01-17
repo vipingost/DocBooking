@@ -67,7 +67,7 @@ const AdminLayout = ({children,heading}) => {
     </div>
     <nav></nav>
     <div className="container">
-        <h1 className='heading' >{heading}</h1>
+        <h1 className='headinglayout' >{heading}</h1>
         {children}
     </div>
   </div>

@@ -3,6 +3,7 @@ import axios from "../../../utils/axios"
 import { Input,Button, Select } from "antd"
 import ViewDoc from "./viewDoc"
 import { useNavigate } from "react-router-dom"
+import './userdash.css'
 
 
 const UserDash =()=>{
@@ -14,8 +15,8 @@ const UserDash =()=>{
 
     const getLocation =async ()=>{
         const response = await axios.get('/user/locations')
-        setLocation(response.data.locationArray)
-        console.log(response.data.locationArray);
+        setLocation(response.data.uniqueLocations)
+        console.log(response.data.uniqueLocations);
         
 
     }
@@ -33,26 +34,28 @@ const UserDash =()=>{
     },[])
 
     return <>
+    <div className="dashwrapper">
     <h1>Hello ,select your preffered location</h1>
-    <Select className="w-auto h-auto"
-    placeholder='Select Location'
+    <Select className="w-60 h-12"
+    placeholder={<span style={{ color: '#4A4A4A',fontSize:20 }}>Select Location</span>}
     options={location}
     onChange={getHospitalDetails}
     />
     {hospitals.map(item=>(
-        <div className="border" onClick={()=>navigate(`/viewdoc/${item._id}`)} >
+        <div className="borderone" onClick={()=>navigate(`/viewdoc/${item._id}`)} >
             <img src={item.image} alt="" />
             <h1>{item.name}</h1>
-            <h2>{item.phonenumber}</h2>
-            <h2>{item.location}</h2>
-            <h2>{item.department.map(items=>(
-                        items.name+ '   '
-            ))}</h2>
-            <h2>{item.about}</h2>
+            <h2>Phone number : {item.phonenumber}</h2>
+            <h2>Location : {item.location}</h2>
+            <h2>Departments Available : <strong> {item.department.map(items=>(
+                        items.name+ '   ' 
+            ))} </strong></h2>
+            <h2> <strong>About</strong> : {item.about}</h2>
         </div>
+        
     ))}
    
-    
+   </div>
     </>
 }
 

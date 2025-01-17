@@ -33,9 +33,11 @@ const DoctorLogin = () => {
     
   
     return (
-      <div heading="Doctor Login">
+      <div className="Doctor">
         <ToastContainer />
         <div className="doctor-login-form">
+          <span className='userspan' >DOCTOR</span>
+          <h1>LOGIN</h1>
           <div className="dep-input-container">
             <label>Email</label>
             <Input onChange={(e) =>setFormData({...formData,email:e.target.value})} type="email" />
@@ -45,7 +47,7 @@ const DoctorLogin = () => {
             <Input onChange={(e) => setFormData({...formData,password:e.target.value})} type="password" />
           </div>
           <div className="add-btn-container">
-            <Button onClick={onLogin}>Login</Button>
+            <Button className='btnuser'  onClick={onLogin}>Login</Button>
           </div>
         </div>
       </div>

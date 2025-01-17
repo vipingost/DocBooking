@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { assets } from '../../../assets/assets';
 import { useNavigate } from 'react-router-dom';
 
@@ -7,6 +7,22 @@ import axios from 'axios';
 
 const NavBar = () => {
     const navigate = useNavigate();
+
+    const [username,setUsername]=useState()
+    const id= localStorage.getItem('USER_ID')
+        const usernamefetch=()=>{
+           const data=localStorage.getItem('UNAME')
+           setUsername(data)
+           console.log(username);
+           
+        }
+    
+        useEffect(() => {
+          usernamefetch()
+        }, [])
+
+        const firstLetter = username ? username.charAt(0).toUpperCase() : '';
+
     
     const logout = async ()=>{
         try {
@@ -38,15 +54,22 @@ const NavBar = () => {
             <img src={assets.logo} alt="Logo" className='w-28 sm:w-32 cursor-pointer' onClick={() => navigate('/')} />
 
             {/* User Section */}
-             
-                
-                <button
+             {
+                username?(
+                    <div className='w-20 h-20 flex items-center justify-center rounded-full bg-gray-800 text-white text-4xl font-bold cursor-pointer  ' onClick={()=>{navigate(`user/${id}`)}} >
+                      <strong>  {firstLetter} </strong> </div>
+                ):(
+                    <button
                     onClick={() => navigate('/user/login')}
                     className='flex items-center gap-2 border border-gray-500 rounded-full px-6 py-2 text-gray-800 hover:bg-gray-200 transition-all'
                 >
                     Login
                     <img src={assets.arrow_icon} alt="Arrow" className='w-4 h-4' />
                 </button>
+                )
+             }
+                
+                
             
         </div>
     );

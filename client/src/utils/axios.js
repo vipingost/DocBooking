@@ -5,21 +5,21 @@ const instance = axios.create({
   timeout: 10000,
 });
 
-// Add a request interceptor to dynamically set the Authorization header
+
 instance.interceptors.request.use(
   (config) => {
-    // Logic to determine which token to use
+    
     let token = null;
 
     if (config.url.startsWith('/admin')) {
-      token = localStorage.getItem('ADMIN_TOKEN'); // Use admin token
+      token = localStorage.getItem('ADMIN_TOKEN'); 
     } else if (config.url.startsWith('/doctor')) {
-      token = localStorage.getItem('DOCTOR_TOKEN'); // Use doctor token
+      token = localStorage.getItem('DOCTOR_TOKEN'); 
     } else if (config.url.startsWith('/user')) {
-      token = localStorage.getItem('USER_TOKEN'); // Use user token
+      token = localStorage.getItem('USER_TOKEN'); 
     }
 
-    // Add the token to the Authorization header if it exists
+    
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

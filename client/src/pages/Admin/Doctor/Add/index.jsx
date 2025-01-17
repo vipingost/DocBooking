@@ -1,5 +1,5 @@
 import AdminLayout from '../../../../Components/AdminLayout';
-import './add.css';
+import './adddoc.css';
 import { Input, Button, Select } from 'antd';
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';
@@ -119,9 +119,9 @@ const AddDoctor = () => {
             <label>Image</label>
             <Input onChange={onUploadImage} type="file" />
           </div>
+        <div className="add-docer-btn-container">
+          <Button className='add-doc-button' onClick={addDoctorOnClick}>Add Doctor</Button>
         </div>
-        <div className="add-btn-container">
-          <Button onClick={addDoctorOnClick}>Add Doctor</Button>
         </div>
       </AdminLayout>
     </>

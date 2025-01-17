@@ -3,6 +3,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+    place-items: center;
 
 }
 
@@ -11,6 +12,11 @@
     flex-direction: column;
     gap: 5px;
 }
-.add-btn-container{
-    margin: 30px 30px;
+.add-hsp-btn-container Button{
+  
+   margin-left: 43%;
+   width: 60px;
+   background-color: rgb(100, 100, 246);
+   color: white;
+   
 }

@@ -1,8 +1,14 @@
-.add-doctor-form {
+.add-department-form {
     margin-top: 30px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 5px;
+    width: 50%;
+    margin-left: 24%;
+    border: 2px solid rgb(219, 215, 215);
+    box-shadow: 3px 3px 10px  #b3afaf;
   }
   
   .doctor-login-form {
@@ -10,6 +16,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+    ;
   }
   
   .dep-input-container {
@@ -18,8 +25,8 @@
     gap: 5px;
   }
   
-  .add-btn-container {
-    margin: 30px 30px;
+  .edit-hospital-btn-container {
+    margin: 30px 43%;
   }
   
   .doctor-profile {

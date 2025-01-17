@@ -54,13 +54,39 @@ module.exports.login = async (req, res) => {
       token: token,
       id: user._id,
       role: 'user',
-      name:user.name
+      name:`${user.firstname} ${user.lastname}`
     });
   } catch (e) {
     res.status(500).json({ message: e.message, error: true });
   }
 };
 
+
+module.exports.getUserById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+    return res.status(200).json(user);
+  } catch (e) {
+    return res.status(500).json({ message: e.message, error: true });
+  }
+};
+
+module.exports.updateuserProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+    const user = await User.findByIdAndUpdate(id, body);
+    return res.status(200).json({
+      message: 'user updated successfully',
+      error: false,
+      success: true,
+    });
+  } catch (e) {
+    return res.status(500).json({ message: e.message, error: true });
+  }
+};
 
 module.exports.getHospitalLocation = async (req,res)=>{
 
@@ -69,9 +95,13 @@ module.exports.getHospitalLocation = async (req,res)=>{
     const Location =await Hospital.find()
     const locationArray= Location.map(item=>(
       {value:item.location,label:item.location}
+      
     ))
-    return res.status(200).json({ message: 'location fetched' ,locationArray});
-    console.log(locationArray);
+    const uniqueLocations = Array.from(
+      new Map(locationArray.map(item => [item.value, item])).values()
+    );
+    return res.status(200).json({ message: 'location fetched' ,uniqueLocations});
+    
     
   } catch (error) {
     return res.status(500).json({ message: e.message, error: true });

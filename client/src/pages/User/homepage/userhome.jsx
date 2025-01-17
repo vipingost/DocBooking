@@ -1,11 +1,29 @@
 import NavBar from './Navbar';
 import { assets } from '../../../assets/assets';
-import { useNavigate } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 
 const UserHome = () => {
 
     const Navigate = useNavigate()
+    const goToUserDash=()=>{
+      Navigate('/userDash')
+    }
+
+    const [username,setUsername]=useState()
+    const usernamefetch=()=>{
+       const data=localStorage.getItem('UNAME')
+       setUsername(data)
+       console.log(username);
+       
+    }
+
+    useEffect(() => {
+      usernamefetch()
+    }, [])
+    
+
   return (
     <>
       <NavBar />
@@ -17,17 +35,21 @@ const UserHome = () => {
             alt=""
           />
           <h1 className="flex items-center gap-2 text-xl sm:text-3xl font-medium mb-2">
-            Hey there...
-            <img className="aspect-square w-8" src={assets.hand_wave} alt="" />
+          {username ? `Hey ${username}..` : 'Hey there...'}
           </h1>
           <h2 className="text-3xl sm:text-5xl font-semibold mb-4">
             Welcome to your app
           </h2>
           <p className="mb-8 max-w-md ">
-            Let's start with a quick product tore and we will have you up and
-            running in no time!
+            Let's have a amazing booking experience with easyDoc.. !
           </p>
-          <button className="border border-gray-500 rounded-full px-8 py-2 hover:bg-gray-200 transition-all"onClick={Navigate('/userDash')} >
+          <button className="border border-gray-500 rounded-full px-8 py-2 hover:bg-gray-200 transition-all"  onClick={() => {
+    if (username) {
+      goToUserDash(); 
+    } else {
+      Navigate('user/login'); 
+    }
+  }} >
             Get Start
           </button>
         </div>

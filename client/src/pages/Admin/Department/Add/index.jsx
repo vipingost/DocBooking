@@ -1,5 +1,5 @@
 import AdminLayout from '../../../../Components/AdminLayout';
-import './add.css';
+import './adddep.css';
 import { Input, Button } from 'antd';
 import { useState } from 'react';
 import axios from '../../../../utils/axios'
@@ -56,10 +56,10 @@ const Add = () => {
             <label>About</label>
             <TextArea onChange={(e)=>{onChange(e,'about')}} rows={5} />
           </div>
-        </div>
-        <div className="add-btn-container">
+        <div className="add-department-btn-container">
 
           <Button onClick={addDepartmentOnClick} >Add</Button>
+        </div>
         </div>
       </AdminLayout>
     </>

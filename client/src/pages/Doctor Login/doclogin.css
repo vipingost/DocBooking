@@ -7,19 +7,30 @@
   
   .doctor-login-form {
     margin-top: 30px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 20px;
+    justify-content: center;
+    align-items: center;
+    width:600px;
+    height: auto;
+    border: 2px solid rgb(250, 241, 241);
+    box-shadow: 2px 3px 18px rgb(107, 105, 105);
+    position: relative;
   }
   
   .dep-input-container {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    min-width: 500px;
+    max-width: 600px;
   }
   
   .add-btn-container {
     margin: 30px 30px;
+    width: 600px;
+    
   }
   
   .doctor-profile {
@@ -36,3 +47,32 @@
     margin-top: 10px;
   }
   
+  .Doctor {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 70px;
+  }
+
+  .doctor-login-form h1 {
+    font-size: 34px;
+    margin: 0;
+    color: #007bff; 
+    margin-top: 10px;
+  }
+  
+  .userspan{
+    position: absolute;
+    top: 12px;
+    left: 349px;
+  }
+
+  .btnuser{
+    background-color: #007bff;
+    color: white;
+    width: 90%;
+    height: 50px;
+    margin-top: -30px;
+    
+  }

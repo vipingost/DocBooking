@@ -1,0 +1,38 @@
+.userprofiewrapper {
+  display: grid;
+  place-items: center;
+  position: relative;
+  background-color: #8ec5fc;
+  background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
+  height: 100vh;
+}
+
+.profilecard {
+  display: flex;
+  flex-direction: column;
+  border: 3px solid #e2dada;
+  width: 30vw;
+  height: auto;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 0;
+  box-shadow: 13px 13px 13px rgb(188, 185, 185);
+}
+
+.userimage img {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.useredit {
+  position: absolute;
+  top: 44px;
+  right: 180px;
+  font-size: 22px;
+}
+
+.userlogoutbtn {
+  position: absolute;
+  top: 1cm;
+  right: 1cm;
+}

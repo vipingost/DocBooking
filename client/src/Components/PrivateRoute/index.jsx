@@ -7,18 +7,18 @@ const PrivateRoute=()=>{
     // useEffect(()=>{
     //     checkIsaAuth()
     //   },[])
-    // const Navigate = useNavigate()
+    // const navigate = useNavigate()
     
     // const checkIsaAuth= async ()=>{
     //   const response =await axios.get('/admin/auth')
-    //   console.log(response);
+    //   console.log('ghjgj',response.data.success);
       
     //   if(response.data.success === false){
-    //     // setIsLogin(true)
-    //     Navigate('/admin/login')
+        
+    //     navigate('/admin/login')
     
     //     toast.error(response.data.message ||response.message)
-    //   }else Navigate('/admin/hospital')
+    //   }else navigate('/admin/hospital')
     
     // }
     if(checkTocken()){

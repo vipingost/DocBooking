@@ -2,13 +2,19 @@
     margin-bottom: 16px;
   }
   
-  .add-btn-container {
+  .add-doc-button {
     text-align: center;
     margin-top: 20px;
+    margin-left: 70%;
   }
   
   .doctor-profile img {
     max-width: 150px;
     border-radius: 50%;
+  }
+
+  .add-doctor-form{
+    margin-left: 10%;
+
   }
   

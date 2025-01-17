@@ -1,0 +1,33 @@
+.doccarditems{
+
+    display: flex;
+    flex-direction: column;
+    flex-wrap:wrap ;
+    border: 1px solid rgb(192, 184, 184);
+    width: 20vw;
+    height: auto;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 3px 3px 13px 3px rgb(232, 228, 228);
+    padding: 10px 5px;
+}
+
+.doccarditems img {
+    width:320px;
+    height:300px;
+    object-fit: cover;
+}
+
+.doccard{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+    padding-top: 60px;
+    gap: 20px;
+}
+
+.doccarditems:hover{
+  scale: 1.09;
+}
+
+

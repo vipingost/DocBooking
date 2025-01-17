@@ -1,5 +1,5 @@
 import AdminLayout from '../../../../Components/AdminLayout';
-import './add.css';
+import './addhos.css';
 import { Input, Button, Select } from 'antd';
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';
@@ -115,7 +115,7 @@ const Add = () => {
             />
           </div>
         </div>
-        <div className="add-btn-container">
+        <div className="add-hsp-btn-container">
           <Button onClick={addHospitalOnClick}>Add</Button>
         </div>
       </AdminLayout>

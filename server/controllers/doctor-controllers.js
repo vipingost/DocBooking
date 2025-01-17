@@ -107,19 +107,18 @@ module.exports.getDoctor = async (req, res) => {
 };
 
 module.exports.AddSlot = async (req, res) => {
-  const { doctorId, slot } = req.body; // Assuming `slot` is an array of { date, slotDetails }
- // console.log(slot);
+  const { doctorId, slot } = req.body; 
 
   try {
-    // Try to find the doctor slot record
+   
     let doctorSlot = await Slot.findOne({ doctorId });
     var newSlot = {
       doctorId,
-      slot: slot, // Assign the slot data directly
-      booked: true, // Default to false
+      slot: slot, 
+      booked: true, 
     };
     if (!doctorSlot) {
-      // If no slot exist for this doctor, create a new slot entry
+      
       await Slot.create({
         ...newSlot,
       });
@@ -140,17 +139,17 @@ module.exports.AddSlot = async (req, res) => {
             slot => slot.date === newSlot.date
           );
           if (existingSlot) {
-            // If the date already exists, append the new slot details to the existing date
+         
             existingSlot.slotDetails.push(...newSlot.slotDetails);
           } else {
-            // If the date doesn't exist, add the new date and slot details
+            
             doctorSlot.slot.push({
               slot,
             });
           }
         });
 
-        // Save the updated doctor slot
+      
         await doctorSlot.save();
         return res.status(200).json({ message: 'Slots added successfully' });
       } else {
@@ -158,7 +157,7 @@ module.exports.AddSlot = async (req, res) => {
         
         doctorSlot.slot.push(slot);
 
-        // Save the updated doctor slot
+       
         await doctorSlot.save();
         return res.status(200).json({ message: 'Slots added successfully' });
       }

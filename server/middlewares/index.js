@@ -47,12 +47,12 @@ module.exports.isAuth = (req, res, next) => {
     }
     const jwtdecode = jwt.verify(token, process.env.SECRET_KEY);
     if (jwtdecode) {
-      res.status(200).json({ message: 'succes', succes: true });
+      res.status(200).json({ message: 'success', success: true });
     } else {
       res.status(400).json({ message: 'invalid token please login' });
-    }
+    }next()
   } catch (error) {
-    res.status(500).json({ succes: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 

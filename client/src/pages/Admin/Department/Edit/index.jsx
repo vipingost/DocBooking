@@ -1,4 +1,4 @@
-import './edit.css';
+import './editdep.css';
 import { Input, Button } from 'antd';
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';

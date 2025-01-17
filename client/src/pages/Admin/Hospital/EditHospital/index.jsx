@@ -1,5 +1,5 @@
 import AdminLayout from '../../../../Components/AdminLayout';
-import './add.css';
+import './edithos.css';
 import { Input, Button, Select } from 'antd';
 import { useState, useEffect } from 'react';
 import axios from '../../../../utils/axios';
@@ -79,7 +79,7 @@ const EditHospital = () => {
 
   return (
     <>
-      <AdminLayout heading="Add Hospital">
+      <AdminLayout heading="Edit Hospital">
         <ToastContainer />
         <div className="add-hospital-form">
           <div className="dep-input-container">
@@ -147,7 +147,7 @@ const EditHospital = () => {
             />
           </div>
         </div>
-        <div className="add-btn-container">
+        <div className="edit-hospital-btn-container">
           <Button onClick={addHospitalOnClick}>Add</Button>
         </div>
       </AdminLayout>
