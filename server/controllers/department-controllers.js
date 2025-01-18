@@ -3,9 +3,9 @@ const Department = require('../db/models/department-schema');
 module.exports.getDepartment = async (req, res) => {
   try {
     const dbResponse = await Department.find();
-    res.status(200).json(dbResponse);
+    return res.status(200).json(dbResponse);
   } catch (e) {
-    res.status(500).json({ message: e.message, error: true });
+    return res.status(500).json({ message: e.message, error: true });
   }
 };
 

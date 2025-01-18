@@ -8,7 +8,7 @@ const UserHome = () => {
 
     const Navigate = useNavigate()
     const goToUserDash=()=>{
-      Navigate('/userDash')
+      Navigate('/user/userDash')
     }
 
     const [username,setUsername]=useState()

@@ -22,7 +22,7 @@ const UserDash =()=>{
     }
     const getHospitalDetails= async(e)=>{
         const response = await axios.get(`/user/hospitals?location=${e}`)
-        console.log(response.data);
+        console.log('hospppp',response.data);
         setHospitals(response.data.hospital)
         
     }
@@ -42,7 +42,7 @@ const UserDash =()=>{
     onChange={getHospitalDetails}
     />
     {hospitals.map(item=>(
-        <div className="borderone" onClick={()=>navigate(`/viewdoc/${item._id}`)} >
+        <div className="borderone" onClick={()=>navigate(`/user/viewdoc/${item._id}`)} >
             <img src={item.image} alt="" />
             <h1>{item.name}</h1>
             <h2>Phone number : {item.phonenumber}</h2>

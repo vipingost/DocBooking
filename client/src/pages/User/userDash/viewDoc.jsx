@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import axios from "../../../utils/axios"
+
 import './viewDoc.css'
 
 const ViewDoc = () => {
 
     const {id}=useParams()
+    const navigate = useNavigate()
     const [docDetails,setDocDetails] = useState([])
 
      const goToDoctor= async (id)=>{
@@ -13,6 +15,11 @@ const ViewDoc = () => {
             console.log(response.data);
             setDocDetails(response.data.doctor)
             
+          }
+
+          const goToSlotDetails=(id)=>{
+
+            navigate(`/user/slotdetails/${id}`)
           }
           
           useEffect(()=>{
@@ -26,7 +33,7 @@ const ViewDoc = () => {
     {
         docDetails.map((item)=>{
             return (
-            <div className='doccarditems' >
+            <div className='doccarditems' onClick={()=>goToSlotDetails(item._id)} >
             <img src={item.image} alt="" />
             <h1>Name : {item.firstname}  {item.lastname}</h1>
             <h2>Expert In : <strong>{item.specialization}</strong></h2>

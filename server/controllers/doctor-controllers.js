@@ -21,18 +21,15 @@ module.exports.signup = async (req, res) => {
       numbers: true,
     });
     console.log(generatedPassword);
-    
-    
+
     const hashedPassword = await bcrypt.hash(generatedPassword, 2);
     const dbResponse = await Doctor.create({
       ...req.body,
       email,
       password: hashedPassword,
-      
-      
     });
     console.log(email);
-    
+
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -105,30 +102,58 @@ module.exports.getDoctor = async (req, res) => {
     res.status(500).json({ message: e.message, error: true });
   }
 };
+module.exports.getDoctorByid = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const doctor = await Doctor.findById(id);
+
+    return res.status(200).json(doctor);
+  } catch (e) {
+    return res.status(500).json({ message: e.message, error: true });
+  }
+};
+
+
+module.exports.updateDoctor = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const body = req.body;
+    const doctor = await Doctor.findByIdAndUpdate(id, body);
+    return res.status(200).json({
+      message: 'Department updated successfully',
+      error: false,
+      success: true,
+    });
+  } catch (e) {
+    return res.status(500).json({ message: e.message, error: true });
+  }
+};
+
 
 module.exports.AddSlot = async (req, res) => {
-  const { doctorId, slot } = req.body; 
+  const { doctorId, slot } = req.body;
 
   try {
-   
     let doctorSlot = await Slot.findOne({ doctorId });
     var newSlot = {
       doctorId,
-      slot: slot, 
-      booked: true, 
+      slot: slot,
+      booked: true,
     };
     if (!doctorSlot) {
-      
       await Slot.create({
         ...newSlot,
       });
 
       return res.status(200).json({ message: 'Slot added successfully' });
     } else {
-      console.log("Check", doctorSlot.slot.filter(fil => {
-        return fil.date === slot.date;
-      }).length != 0);
-      
+      console.log(
+        'Check',
+        doctorSlot.slot.filter(fil => {
+          return fil.date === slot.date;
+        }).length != 0
+      );
+
       if (
         doctorSlot.slot.filter(fil => {
           return fil.date === slot.date;
@@ -139,25 +164,21 @@ module.exports.AddSlot = async (req, res) => {
             slot => slot.date === newSlot.date
           );
           if (existingSlot) {
-         
             existingSlot.slotDetails.push(...newSlot.slotDetails);
           } else {
-            
             doctorSlot.slot.push({
               slot,
             });
           }
         });
 
-      
         await doctorSlot.save();
         return res.status(200).json({ message: 'Slots added successfully' });
       } else {
-        console.log("rfgrfghsrghhghik");
-        
+        console.log('rfgrfghsrghhghik');
+
         doctorSlot.slot.push(slot);
 
-       
         await doctorSlot.save();
         return res.status(200).json({ message: 'Slots added successfully' });
       }

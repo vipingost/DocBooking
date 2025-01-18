@@ -53,7 +53,7 @@ module.exports.login = async (req, res) => {
       message: 'You are logged in',
       token: token,
       id: user._id,
-      role: 'user',
+      role: 'USER',
       name:`${user.firstname} ${user.lastname}`
     });
   } catch (e) {
@@ -117,7 +117,7 @@ module.exports.getHospitalsByLocation = async (req,res)=>{
    
     console.log(req.query.location);
     
-    return res.status(200).json({ message: 'location fetched' ,hospital});
+    return res.status(200).json({ message: 'Hospital fetched' ,hospital});
     
     
   } catch (error) {

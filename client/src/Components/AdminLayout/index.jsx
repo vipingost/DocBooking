@@ -22,7 +22,7 @@ const AdminLayout = ({children,heading}) => {
         <div className="menu">
             <p className="menu-head">Pages</p>
             <div className="menu-container">
-                <NavLink className="menu-item" to="/admin/home">
+                <NavLink className="menu-item" to="/">
                 <i class="fa-solid fa-house"></i> 
                     Home
                 </NavLink>
