@@ -117,7 +117,7 @@ const EditDocter = () => {
             <label>Department</label>
             <Select
             mode='multiple'
-            value={doctor.department}
+            value={doctor.department?.name}
               options={departments}
               onChange={(value) => onChange(value, 'department')}
             />
@@ -125,7 +125,7 @@ const EditDocter = () => {
           <div className="dep-input-container">
             <label>Hospital</label>
             <Select
-            value={doctor.hospital}
+            value={doctor.hospital?.name}
               options={hospitals}
               onChange={(value) => onChange(value, 'hospital')}
             />

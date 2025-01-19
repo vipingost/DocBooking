@@ -10,7 +10,7 @@ const UserProfile = () => {
   const id = localStorage.getItem('USER_ID');
 
   const fetchUserById = async () => {
-    const response = await axios.get(`/user/${id}`);
+    const response = await axios.get(`/user/userprofile/${id}`);
     console.log(response.data);
     setUserDetails(response.data);
   };

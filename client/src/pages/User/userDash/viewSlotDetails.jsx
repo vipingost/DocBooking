@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import axios from '../../../utils/axios';
+import { toast, ToastContainer } from 'react-toastify';
 
 const ViewSlotDetails = () => {
   const [slotDetails, setSlotDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [userBooked, setUserBooked] = useState(false);
   const { id } = useParams();
-
+  const Navigate = useNavigate();
+  const userId = localStorage.getItem('USER_ID');
   const getSlotDetails = async () => {
     try {
       const response = await axios.get(`/slot/doctor/${id}`);
@@ -22,12 +25,33 @@ const ViewSlotDetails = () => {
     }
   };
 
+  const onSlotBook = async (sTime, eTime, date) => {
+    try {
+      var slot = await axios.post('/user/bookslot', {
+        doctorId: id,
+        userId,
+        sTime,
+        eTime,
+        date,
+        slotId: slotDetails._id,
+      });
+      setUserBooked(!userBooked);
+      toast.success('Slot Booked successfully');
+    setTimeout(()=>Navigate('/user/bookingreciept'),3000) 
+      console.log('frgvrfrbh', slot);
+    } catch (error) {
+      console.log('slot', error);
+      toast.error(error.response.data.message || error.message);
+    }
+  };
+
   useEffect(() => {
     getSlotDetails();
-  }, []);
+  }, [userBooked]);
 
   return (
     <div className="min-h-screen bg-gray-100 p-4">
+      <ToastContainer />
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg p-6">
         <h1 className="text-2xl font-bold text-gray-800 mb-4">
           Available Slot Details
@@ -63,16 +87,25 @@ const ViewSlotDetails = () => {
                         <span className="text-gray-700">
                           {detail.starttime} - {detail.endtime}
                         </span>
-                        <button
-                          className="px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition"
-                          onClick={() =>
-                            alert(
-                              `Booking for ${slot.date} at ${detail.starttime}`
-                            )
-                          }
-                        >
-                          Book Now
-                        </button>
+
+                        {detail?.isFull ? (
+                          <button className="text-gray-500">
+                            Not available
+                          </button>
+                        ) : (
+                          <button
+                            className="px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition"
+                            onClick={() =>
+                              onSlotBook(
+                                detail.starttime,
+                                detail.endtime,
+                                slot.date
+                              )
+                            }
+                          >
+                            Book Now
+                          </button>
+                        )}
                       </li>
                     ))}
                   </ul>

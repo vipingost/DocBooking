@@ -56,7 +56,7 @@ const NavBar = () => {
             {/* User Section */}
              {
                 username?(
-                    <div className='w-20 h-20 flex items-center justify-center rounded-full bg-gray-800 text-white text-4xl font-bold cursor-pointer  ' onClick={()=>{navigate(`user/${id}`)}} >
+                    <div className='w-20 h-20 flex items-center justify-center rounded-full bg-gray-800 text-white text-4xl font-bold cursor-pointer  ' onClick={()=>{navigate(`user/userprofile/${id}`)}} >
                       <strong>  {firstLetter} </strong> </div>
                 ):(
                     <button
