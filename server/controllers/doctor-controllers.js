@@ -105,7 +105,7 @@ module.exports.getDoctor = async (req, res) => {
 module.exports.getDoctorByid = async (req, res) => {
   try {
     const { id } = req.params;
-    const doctor = await Doctor.findById(id);
+    const doctor = await Doctor.findById(id).populate('hospital').populate('department')
 
     return res.status(200).json(doctor);
   } catch (e) {

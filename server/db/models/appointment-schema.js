@@ -8,7 +8,7 @@ const appointmentSchema = Schema(
     },
     slot: {
       type: Schema.Types.ObjectId,
-      ref: 'slots',
+      ref: 'Slot',
     },
     doctor: {
       type: Schema.Types.ObjectId,
