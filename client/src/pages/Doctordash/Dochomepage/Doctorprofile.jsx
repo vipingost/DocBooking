@@ -59,7 +59,7 @@ const DoctorProfile = () => {
           <h2>About : {doctorDetails.about}</h2>
         </div>
         <div className="opration-btn">
-          <Button>See upComming Appoiments</Button>
+          <Button onClick={()=>navigate('/doctor/doctorappointments')} >See upComming Appoiments</Button>
           <Button onClick={()=>navigate('/doctor/set-slot')} >Add Slot</Button>
         </div>
       </div>

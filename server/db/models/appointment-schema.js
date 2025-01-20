@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const prescription = require('./prescription-schema');
 
 const appointmentSchema = Schema(
   {
@@ -38,6 +39,14 @@ const appointmentSchema = Schema(
       type: Schema.Types.ObjectId,
       ref: 'hospitals',
     },
+    metDoctor:{
+      type:Boolean,
+      default:false
+    },
+    prescription:{
+      type:String,
+      default:'No Prescription Found'
+    }
   },
   { timestamps: true }
 );

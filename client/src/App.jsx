@@ -27,6 +27,8 @@ import UserProfile from './pages/User/homepage/userprofile';
 import UserprofileEdit from './pages/User/userprofileEdit/userprofileEdit';
 import ViewSlotDetails from './pages/User/userDash/viewSlotDetails';
 import BookingReciept from './pages/User/bookingReciept/bookingReciept';
+import DoctorAppointment from './pages/Doctordash/DoctorsAppoinments/DoctorAppointment';
+import UserPrescription from './pages/Doctordash/DoctorsAppoinments/userPrescribtion';
 
 const App = () => {
   return (
@@ -55,6 +57,8 @@ const App = () => {
         <Route path="/doctor/set-slot" element={<SetSlot />} />
         <Route path="/doctor" element={<DoctorHome />} />
         <Route path="/doctor/profile" element={<DoctorProfile />} />
+        <Route path="/doctor/doctorappointments" element={<DoctorAppointment />} />
+        <Route path="/doctor/userprescription/:userId" element={<UserPrescription />} />
 
         <Route path="/" element={<UserHome />} />
         <Route path="/user" element={<UserAuth />}>

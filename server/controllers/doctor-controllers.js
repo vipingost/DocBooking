@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const generator = require('generate-password');
 const nodemailer = require('nodemailer');
+const Appointment = require('../db/models/appointment-schema');
 
 module.exports.signup = async (req, res) => {
   try {
@@ -106,14 +107,15 @@ module.exports.getDoctor = async (req, res) => {
 module.exports.getDoctorByid = async (req, res) => {
   try {
     const { id } = req.params;
-    const doctor = await Doctor.findById(id).populate('hospital').populate('department')
+    const doctor = await Doctor.findById(id)
+      .populate('hospital')
+      .populate('department');
 
     return res.status(200).json(doctor);
   } catch (e) {
     return res.status(500).json({ message: e.message, error: true });
   }
 };
-
 
 module.exports.updateDoctor = async (req, res) => {
   try {
@@ -129,7 +131,6 @@ module.exports.updateDoctor = async (req, res) => {
     return res.status(500).json({ message: e.message, error: true });
   }
 };
-
 
 module.exports.AddSlot = async (req, res) => {
   const { doctorId, slot } = req.body;
@@ -189,3 +190,84 @@ module.exports.AddSlot = async (req, res) => {
     return res.status(500).json({ message: 'Failed to add slot' });
   }
 };
+
+module.exports.getDoctorAppointments = async (req, res) => {
+  try {
+    const { doctorId } = req.query;
+    console.log(req.query);
+
+    const doctorslots = await Slot.findOne({ doctorId: doctorId });
+    console.log(doctorslots);
+
+    return res.status(200).json({ slots: doctorslots.slot, success: true });
+  } catch (e) {
+    return res.status(500).json({ message: e.message, error: true });
+  }
+};
+
+module.exports.getPatientDetails = async (req, res) => {
+  try {
+    const { slotId, doctorId, date } = req.query;
+    const patientDetails = await Slot.findOne({ doctorId })
+      .populate('slot.slotDetails.patients.userId')
+      .exec();
+
+    const todaysDate = new Date();
+    const Today = todaysDate.toISOString().split('T')[0];
+    //console.log(patientDetails);
+
+    const correctdate = Today === date ? Today : null;
+
+    const todaysPatients = patientDetails.slot.filter(item => {
+      return item.date === correctdate;
+    });
+    console.log(todaysPatients.length);
+
+    if (todaysPatients.length > 0) {
+      return res
+        .status(200)
+        .json({ todaysPatients: todaysPatients[0], success: true });
+    } else {
+      return res
+        .status(400)
+        .json({ success: false, message: 'Today there is no Consoltation' });
+    }
+  } catch (e) {
+    return res.status(500).json({ success: false, message: e.message });
+  }
+};
+
+module.exports.getUserprescription = async (req,res) => {
+  const {userId,doctorId,sTime,eTime}= req.body
+
+  
+  const todaysDate = new Date();
+
+
+  const Today = todaysDate.toISOString().split('T')[0];
+  const userTodayPrescription =await Appointment.findOne({doctor:doctorId,user:userId,date:Today,startTime:sTime,endTime:eTime}).populate('user')
+  
+if(userTodayPrescription){
+  return res.status(200).json({info:userTodayPrescription,success:true})
+}  else{
+  return res.status(400).json({success:false})
+}
+};
+
+
+module.exports.DoAddPrescription= async(req,res)=>{
+  
+   try {
+    const prrescription = await Appointment.updateOne({_id:req.body.appoinmentId},{
+      $set:{
+        prescription:req.body.change,
+        metDoctor:true
+      }
+     })
+     return res.status(200).json({success:true,message:'Pricription Upadated'})
+   } catch (error) {
+    return res.status(400).json({success:false,message:error.mesaage})
+   }
+
+
+}
