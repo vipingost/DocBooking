@@ -25,7 +25,9 @@ const ViewSlotDetails = () => {
     }
   };
 
-  const onSlotBook = async (sTime, eTime, date) => {
+
+
+  const onSlotBook = async (sTime, eTime, date,identifyId) => {
     try {
       var slot = await axios.post('/user/bookslot', {
         doctorId: id,
@@ -34,10 +36,11 @@ const ViewSlotDetails = () => {
         eTime,
         date,
         slotId: slotDetails._id,
+        identifyId
       });
       setUserBooked(!userBooked);
       toast.success('Slot Booked successfully');
-    setTimeout(()=>Navigate('/user/bookingreciept'),3000) 
+    setTimeout(()=>Navigate(`/user/bookingreciept?userId=${userId}`),3000) 
       console.log('frgvrfrbh', slot);
     } catch (error) {
       console.log('slot', error);
@@ -99,7 +102,8 @@ const ViewSlotDetails = () => {
                               onSlotBook(
                                 detail.starttime,
                                 detail.endtime,
-                                slot.date
+                                slot.date,
+                                detail._id
                               )
                             }
                           >

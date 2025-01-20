@@ -7,8 +7,8 @@ router.post('/login', login);
 router.get('/locations', getHospitalLocation);
 router.get('/hospitals', getHospitalsByLocation);
 router.get('/fetchdoctors', getDoctorByHospital);
-router.get('/userprofile:id', getUserById);
-router.patch('/:id', updateuserProfile);
+router.get('/userprofile/:id', getUserById);
+router.patch('/editprofile/:id', updateuserProfile);
 router.post('/bookslot',doSLotBooking) 
 router.get('/getbookingreciept',getbookingreciept)
 

@@ -6,6 +6,7 @@ const Doctor = require('../db/models/doctor-schema');
 const Slot = require('../db/models/slot-schema');
 const mongoose = require('mongoose');
 const { tempFunc } = require('../dependencies/temp');
+const Appointment = require('../db/models/appointment-schema');
 
 module.exports.signup = async (req, res) => {
   try {
@@ -137,11 +138,9 @@ module.exports.getDoctorByHospital = async (req, res) => {
 };
 
 module.exports.doSLotBooking = async (req, res) => {
-  const { doctorId, slotId, sTime, eTime, userId, date } = req.body;
+  const { doctorId, slotId, sTime, eTime, userId, date, identifyId } = req.body;
 
   try {
-    console.log(req.body);
-
     // Find the slot array
     const slotArray = await Slot.findOne({ doctorId: doctorId, _id: slotId });
     if (!slotArray) {
@@ -196,7 +195,30 @@ module.exports.doSLotBooking = async (req, res) => {
 
     // Save the updated slot array
     await slotArray.save();
-    return res.status(200).json({ message: 'Slot booked successfully' });
+    const hospitalDetails=  await Doctor.findOne({_id:doctorId}).populate('hospital')
+    console.log(hospitalDetails);
+    
+    const AppointmentTime = await tempFunc(
+      sTime,
+      eTime,
+      dateSlot.slotDetails,
+      userId,
+      identifyId
+    );
+    console.log('Db', userId, doctorId, sTime, eTime, AppointmentTime, date);
+
+    const appointmentDetailforid=await Appointment.create({
+      user: userId,
+      doctor: doctorId,
+      startTime: sTime,
+      endTime: eTime,
+      bookedSlotTime: AppointmentTime,
+      date: date,
+      hospital:hospitalDetails.hospital._id
+    });
+console.log('appointmentDetailforid',appointmentDetailforid);
+
+    return res.status(200).json({ message: 'Slot booked successfully',appointmentId:appointmentDetailforid._id });
   } catch (error) {
     console.error('Error booking slot:', error);
     return res.status(500).json({ message: 'Internal server error', error });
@@ -204,59 +226,69 @@ module.exports.doSLotBooking = async (req, res) => {
 };
 
 module.exports.getbookingreciept = async (req, res) => {
-  console.log('hhhh');
+  
 
   try {
     // Extract userId from the query parameters
     const { userId } = req.query;
-    console.log('Query UserID:', userId);
+    console.log(req.query);
 
-    // Ensure userId is converted to an ObjectId
-    const userObjectId = new mongoose.Types.ObjectId(userId);
+    const appointments = await Appointment.find({ user: userId }).populate(
+      'doctor'
+    ).populate('user').populate('hospital')
 
-    // Query the database to find slots where patients include this userId
-    const details = await Slot.find({
-      slot: {
-        $elemMatch: {
-          slotDetails: {
-            $elemMatch: {
-              patients: {
-                $elemMatch: { userId: userObjectId },
-              },
-            },
-          },
-        },
-      },
-    });
-
-    console.log('Booking Details:', details);
-    const dateList = details.flatMap((detail) => 
-      detail.slot.flatMap(one => 
-        one.slotDetails.flatMap(two => 
-          tempFunc(two.starttime, two.endtime, two, userId)
-        )
-      )
-    );
-    
-   
- console.log(dateList);
- 
-
-    // Respond with appropriate data
-    // if (details.length > 0) {
-    //   res.status(200).json({ success: true, data: details });
-    // } else {
-    //   res
-    //     .status(404)
-    //     .json({ success: false, message: 'No booking found for this user' });
+    if (appointments) {
+      return res.status(200).json({ success: true,appointments});
+    }
+    return res
+      .status(400)
+      .json({ success: false, message: 'restricted userId modification' });
+  } catch (e) {  
+    return res
+    .status(400)
+    .json({ success: false, error:e.message });
+    //   console.log('Query UserID:', userId);
+    //   // Ensure userId is converted to an ObjectId
+    //   const userObjectId = new mongoose.Types.ObjectId(userId);
+    //   // Query the database to find slots where patients include this userId
+    //   const details = await Slot.find({
+    //     slot: {
+    //       $elemMatch: {
+    //         slotDetails: {
+    //           $elemMatch: {
+    //             patients: {
+    //               $elemMatch: { userId: userObjectId },
+    //             },
+    //           },
+    //         },
+    //       },
+    //     },
+    //   });
+    //   console.log('Booking Details:', details);
+    //   const dateList = details.flatMap(detail =>
+    //     detail.slot.flatMap(one =>
+    //       one.slotDetails.flatMap(two =>
+    //         tempFunc(two.starttime, two.endtime, two, userId, detail.doctorId)
+    //       )
+    //     )
+    //   );
+    //   console.log(dateList);
+    //   // Respond with appropriate data
+    //   // if (details.length > 0) {
+    //   //   res.status(200).json({ success: true, data: details });
+    //   // } else {
+    //   //   res
+    //   //     .status(404)
+    //   //     .json({ success: false, message: 'No booking found for this user' });
+    //   // }
+    // } catch (error) {
+    //   // Handle any errors that occur during the database query
+    //   console.error('Error fetching booking receipt:', error);
+    //   res.status(500).json({
+    //     success: false,
+    //     message: 'An error occurred',
+    //     error: error.message,
+    //   });
     // }
-  } catch (error) {
-    // Handle any errors that occur during the database query
-    console.error('Error fetching booking receipt:', error);
-    res.status(500).json({
-      success: false,
-      message: 'An error occurred',
-      error: error.message,
-    });
   }
 };

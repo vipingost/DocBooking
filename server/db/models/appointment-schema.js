@@ -3,13 +3,25 @@ const { Schema, model } = require('mongoose');
 const appointmentSchema = Schema(
   {
     date: {
-      type: Date,
+      type: String,
       required: true,
     },
-    slot: {
+    startTime:{
+      type:String,
+      required:true,
+    },
+    bookedSlotTime:{
+      type:String,
+      required:true,
+    },
+    endTime:{
+      type:String,
+      required:true,
+    },
+  /*  slot: {
       type: Schema.Types.ObjectId,
       ref: 'Slot',
-    },
+    },*/
     doctor: {
       type: Schema.Types.ObjectId,
       ref: 'doctors',
@@ -18,14 +30,14 @@ const appointmentSchema = Schema(
       type: Schema.Types.ObjectId,
       ref: 'users',
     },
-    // department: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'departments',
-    // },
-    // hospital: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: 'hospitals',
-    // },
+  //   department: {
+  //     type: Schema.Types.ObjectId,
+  //     ref: 'departments',
+  //   },
+    hospital: {
+      type: Schema.Types.ObjectId,
+      ref: 'hospitals',
+    },
   },
   { timestamps: true }
 );

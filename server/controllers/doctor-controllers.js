@@ -22,7 +22,8 @@ module.exports.signup = async (req, res) => {
     });
     console.log(generatedPassword);
 
-    const hashedPassword = await bcrypt.hash(generatedPassword, 2);
+    // const hashedPassword = await bcrypt.hash(generatedPassword, 2);
+    const hashedPassword = await bcrypt.hash('doctor123', 2);
     const dbResponse = await Doctor.create({
       ...req.body,
       email,
