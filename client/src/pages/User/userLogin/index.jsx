@@ -52,6 +52,7 @@ const UserLogin = () => {
             Login
           </Button>
         </Form.Item>
+        <span className='absolute left-auto text-center cursor-pointer ' onClick={()=>navigate('/user/signup')} >Don't have an account?     SignUp</span>
       </Form>
     </div>
   );

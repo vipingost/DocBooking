@@ -14,7 +14,7 @@ const LoginRedirectHandler = () => {
       navigate('/admin/department'); 
     } else if (doctorToken && window.location.pathname === '/doctor/login') {
       navigate('/doctor'); 
-    } else if (userToken && window.location.pathname === '/user/login') {
+    } else if (userToken && window.location.pathname === `/user/login`) {
       navigate('/'); 
     }
   }, [navigate]);

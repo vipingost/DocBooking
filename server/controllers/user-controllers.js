@@ -141,13 +141,13 @@ module.exports.doSLotBooking = async (req, res) => {
   const { doctorId, slotId, sTime, eTime, userId, date, identifyId } = req.body;
 
   try {
-    // Find the slot array
+    
     const slotArray = await Slot.findOne({ doctorId: doctorId, _id: slotId });
     if (!slotArray) {
       return res.status(404).json({ message: 'Slot not found' });
     }
 
-    // Find the slot for the specified date
+   
     const dateSlot = slotArray.slot.find(item => item.date === date);
     if (!dateSlot) {
       return res
@@ -155,7 +155,7 @@ module.exports.doSLotBooking = async (req, res) => {
         .json({ message: 'No slots available for this date' });
     }
 
-    // Find the specific slotDetails
+   
     const slotDetails = dateSlot.slotDetails.find(
       item => item.starttime === sTime && item.endtime === eTime
     );
@@ -163,7 +163,7 @@ module.exports.doSLotBooking = async (req, res) => {
       return res.status(404).json({ message: 'Slot details not found' });
     }
 
-    // Check if the user has already booked
+   
     const alreadyIn = slotDetails.patients.some(
       patient => patient.userId.toString() === userId.toString()
     );
@@ -173,13 +173,13 @@ module.exports.doSLotBooking = async (req, res) => {
         .json({ message: 'You already booked in this slot' });
     }
 
-    // Add the user to the patients array
+   
     slotDetails.patients.push({
       userId: new mongoose.Types.ObjectId(userId),
       already: true,
     });
 
-    // Calculate total slots available for the time range
+    
     const [sHours, sMinutes] = sTime.split(':').map(Number);
     const [eHours, eMinutes] = eTime.split(':').map(Number);
 
@@ -188,12 +188,11 @@ module.exports.doSLotBooking = async (req, res) => {
 
     const slotsAvailable = Math.floor((endMinutes - startMinutes) / 15);
 
-    // Check if the slot is full
     if (slotDetails.patients.length >= slotsAvailable) {
       slotDetails.isFull = true;
     }
 
-    // Save the updated slot array
+   
     await slotArray.save();
     const hospitalDetails=  await Doctor.findOne({_id:doctorId}).populate('hospital')
     console.log(hospitalDetails);
@@ -229,7 +228,7 @@ module.exports.getbookingreciept = async (req, res) => {
   
 
   try {
-    // Extract userId from the query parameters
+    
     const { userId } = req.query;
     console.log(req.query);
 
@@ -292,3 +291,27 @@ module.exports.getbookingreciept = async (req, res) => {
     // }
   }
 };
+
+module.exports.Getprescriptionhistory= async (req,res)=>{
+   
+
+  
+  try {
+    const {id}= req.params
+    
+    const info = await Appointment.find({user:id}).populate('doctor').populate('hospital')
+    console.log(info);
+    if (info) {
+      return res.status(200).json({ success: true,info});
+    }
+    
+    return res
+      .status(400)
+      .json({ success: false, message: 'No prescription found' });
+  } catch (e) {  
+    return res
+    .status(400)
+    .json({ success: false, error:e.message });}
+
+
+}

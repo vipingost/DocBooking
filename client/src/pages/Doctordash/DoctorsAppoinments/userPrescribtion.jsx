@@ -45,7 +45,7 @@ const UserPrescription = () => {
       <ToastContainer />
       <div className="w-screen h-screen bg-gray-100 p-8">
         <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6 space-y-6">
-          {/* User Details Section */}
+        
           <div className="text-gray-800">
             <h2 className="text-2xl font-semibold mb-4">Patient Information</h2>
             <p><strong>Name:</strong> {userDetails.firstname} {userDetails.lastname}</p>
@@ -57,7 +57,7 @@ const UserPrescription = () => {
             <p><strong>Address:</strong> {userDetails.address}</p>
           </div>
 
-          {/* Prescription Input Section */}
+          
           <div className="space-y-4">
             <label htmlFor="prescription" className="block text-lg font-medium text-gray-700">Prescription</label>
             <TextArea

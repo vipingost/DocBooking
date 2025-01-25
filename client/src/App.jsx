@@ -29,6 +29,7 @@ import ViewSlotDetails from './pages/User/userDash/viewSlotDetails';
 import BookingReciept from './pages/User/bookingReciept/bookingReciept';
 import DoctorAppointment from './pages/Doctordash/DoctorsAppoinments/DoctorAppointment';
 import UserPrescription from './pages/Doctordash/DoctorsAppoinments/userPrescribtion';
+import PrescrptionHistory from './pages/User/bookingReciept/PrescrptionHistory';
 
 const App = () => {
   return (
@@ -68,6 +69,7 @@ const App = () => {
           <Route path="/user/viewdoc/:id" element={<ViewDoc />} />
           <Route path="/user/slotdetails/:id" element={<ViewSlotDetails />} />
           <Route path="/user/bookingreciept" element={<BookingReciept />} />
+          <Route path="/user/prescriptionhistory" element={<PrescrptionHistory />} />
         </Route>
       </Routes>
     </>

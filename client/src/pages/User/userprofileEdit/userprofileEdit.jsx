@@ -132,10 +132,10 @@ const UserprofileEdit = () => {
               user.image
                 ? [{ url: user.image, name: 'Uploaded Image', status: 'done' }]
                 : []
-            } // Display uploaded image if exists
+            }
             showUploadList={true}
-            customRequest={onUploadImage} // Handle custom upload logic
-            onRemove={() => setUser({ ...user, image: '' })} // Clear the image on removal
+            customRequest={onUploadImage} 
+            onRemove={() => setUser({ ...user, image: '' })} 
           >
             <Button>Upload Image</Button>
           </Upload>

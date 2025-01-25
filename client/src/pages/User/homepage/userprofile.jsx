@@ -28,7 +28,8 @@ const UserProfile = () => {
 
   return (
     <>
-      <div className="userprofiewrapper">
+      <div className="userprofiewrapper relative ">
+        <Button className='absolute top-10 right-72' onClick={()=>navigate('/user/prescriptionhistory')} >Prescription History</Button>
         <div className="userlogoutbtn">
           <Popconfirm
             title="Delete the task"
